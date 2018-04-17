@@ -7,18 +7,23 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     docker-php-ext-enable xdebug \
 ;fi
 
-RUN apt-get update && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev \
+RUN apt-get update && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev \
 	&& docker-php-ext-install -j$(nproc) iconv mcrypt \
 	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
 	&& docker-php-ext-install -j$(nproc) gd
 
-RUN apt-get update && apt-get install -y libz-dev libmemcached-dev libjpeg-dev libpng-dev libxml2-dev \
+RUN apt-get update && apt-get install -y libz-dev libmemcached-dev libjpeg-dev libpng-dev libxml2-dev libicu-dev \
     && pecl install memcached \
     && docker-php-ext-enable memcached \
     && docker-php-ext-install -j$(nproc) pdo pdo_mysql mysqli opcache \
     && docker-php-ext-enable pdo pdo_mysql mysqli opcache \
     && docker-php-ext-install -j$(nproc) mbstring bcmath json \
-    && docker-php-ext-enable mbstring bcmath json
+    && docker-php-ext-enable mbstring bcmath json \
+    && docker-php-ext-configure init \
+    && docker-php-ext-install -j$(nproc) intl
+
+RUN pecl install apcu \
+    && docker-php-ext-enable apcu
 
 RUN docker-php-ext-install zip \
     && docker-php-ext-enable zip
