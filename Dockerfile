@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y libz-dev libmemcached-dev libjpeg-dev l
     && docker-php-ext-enable pdo pdo_mysql mysqli opcache \
     && docker-php-ext-install -j$(nproc) mbstring bcmath json \
     && docker-php-ext-enable mbstring bcmath json \
-    && docker-php-ext-configure init \
+    && docker-php-ext-configure intl \
     && docker-php-ext-install -j$(nproc) intl
 
 RUN pecl install apcu \
