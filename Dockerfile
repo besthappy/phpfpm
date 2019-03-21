@@ -25,13 +25,13 @@ RUN apt-get update && apt-get install -y libz-dev libmemcached-dev libjpeg-dev l
 RUN pecl install apcu \
     && docker-php-ext-enable apcu
 
-RUN pecl install mcrypt-1.0.1 \
+RUN pecl install mcrypt-1.0.2 \
     && docker-php-ext-enable mcrypt
 
 RUN docker-php-ext-install zip \
     && docker-php-ext-enable zip
 
-RUN curl https://getcomposer.org/download/1.2.0/composer.phar > /tmp/composer.phar \
+RUN curl https://getcomposer.org/download/1.8.4/composer.phar > /tmp/composer.phar \
     && chmod +x /tmp/composer.phar \
     && mv /tmp/composer.phar /usr/local/bin/composer \
     && apt-get update && apt-get install -y less \
